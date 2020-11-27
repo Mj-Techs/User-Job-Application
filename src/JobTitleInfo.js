@@ -1,32 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button } from "react-bootstrap";
 import axios from "axios";
+import UserDetail from "./UserDetail";
 
 const JobTitleInfo = (props) => {
   const { developer, Jobheader } = props;
   // console.log(props);
   const [id, setId] = useState("");
-  useEffect(() => {
-    if (id) {
-      axios
-        .get(
-          `http://dct-application-form.herokuapp.com/users/application-form/${id}`
-        )
-        .then((response) => {
-          const result = response.data;
-          alert(`${result.name} Profile
---------------------------------------------------------------
-            Contact Number --> ${result.phone}
-            Email --> ${result.email}
-            Skills --> ${result.skills}
-            Experience --> ${result.experience}
-----------------------------------------------------------------`);
-        })
-        .catch((err) => {
-          alert(err.message);
-        });
-    }
-  }, [id]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const handleDetails = (id) => {
+    setId(id);
+    setModalIsOpen(true);
+  };
+  const ToggleModal = () => {
+    setModalIsOpen(!modalIsOpen);
+  };
   const handleShortlist = (id) => {
     axios
       .put(
@@ -93,7 +81,7 @@ const JobTitleInfo = (props) => {
                     variant="info"
                     size="sm"
                     onClick={() => {
-                      setId(user._id);
+                      handleDetails(user._id);
                     }}
                   >
                     View Details
@@ -132,6 +120,13 @@ const JobTitleInfo = (props) => {
           })}
         </tbody>
       </Table>
+      {id && (
+        <UserDetail
+          id={id}
+          modalIsOpen={modalIsOpen}
+          ToggleModal={ToggleModal}
+        />
+      )}
     </div>
   );
 };
