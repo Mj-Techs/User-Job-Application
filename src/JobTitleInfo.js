@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Table, Button } from "react-bootstrap";
 import axios from "axios";
 import UserDetail from "./UserDetail";

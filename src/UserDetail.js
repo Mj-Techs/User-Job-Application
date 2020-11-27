@@ -57,14 +57,10 @@ const UserDetail = (props) => {
         isOpen={modalIsOpen}
         onRequestClose={ToggleModal}
         style={customStyles}
-        aria={{
-          labelledby: "heading",
-          describedby: "full_description",
-        }}
       >
-        <h2 id="heading">{userDetail.name} Profile</h2>
+        <h2>{userDetail.name} Profile</h2>
         <hr />
-        <div id="full_description">
+        <div>
           <h5>Contact number - {userDetail.phone}</h5>
           <h5>Email - {userDetail.email}</h5>
           <h5>Skills - {userDetail.skills}</h5>
