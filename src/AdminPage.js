@@ -1,30 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import JobTitleInfo from "./JobTitleInfo";
 const AdminPage = (props) => {
-  const { data } = props;
-  // console.log(data);
-  const [developer, setDeveloper] = useState("");
-  const [Jobheader, setJobHeader] = useState("");
-  // console.log(Jobheader);
-  const JobTitle = [
+  const Title = [
     "Front-End Developer",
     "Node.js Developer",
     "MEAN Stack Developer",
     "FULL Stack Developer",
   ];
-  const handleClick = (index) => {
-    // console.log(index);
-    setJobHeader(JobTitle[index]);
+  const { data } = props;
+  const [developer, setDeveloper] = useState([]);
+  const [Jobheader, setJobHeader] = useState(Title[0]);
+
+  // To show the Front-End Developers at inital rendering
+  useEffect(() => {
     const result = data.filter((i) => {
-      return i.jobTitle === JobTitle[index];
+      return i.jobTitle === "Front-End Developer";
+    });
+    setDeveloper(result);
+  }, [data]);
+
+  // After clicking on JobTitle button
+  const handleClick = (index) => {
+    setJobHeader(Title[index]);
+    const result = data.filter((i) => {
+      return i.jobTitle === Title[index];
     });
     setDeveloper(result);
   };
   return (
     <div>
       <h1>Admin Dashboard</h1>
-      {JobTitle.map((job, i) => {
+      {Title.map((job, i) => {
         return (
           <Button
             key={i}

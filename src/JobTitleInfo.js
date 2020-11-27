@@ -4,6 +4,7 @@ import axios from "axios";
 
 const JobTitleInfo = (props) => {
   const { developer, Jobheader } = props;
+  // console.log(props);
   const [id, setId] = useState("");
   useEffect(() => {
     if (id) {
