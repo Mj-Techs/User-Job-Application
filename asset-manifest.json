@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.js": "/User-Job-Application/static/js/main.d52868d5.chunk.js",
+    "main.js.map": "/User-Job-Application/static/js/main.d52868d5.chunk.js.map",
+    "runtime-main.js": "/User-Job-Application/static/js/runtime-main.e5c4f616.js",
+    "runtime-main.js.map": "/User-Job-Application/static/js/runtime-main.e5c4f616.js.map",
+    "static/css/2.1a02f21c.chunk.css": "/User-Job-Application/static/css/2.1a02f21c.chunk.css",
+    "static/js/2.f0c39cac.chunk.js": "/User-Job-Application/static/js/2.f0c39cac.chunk.js",
+    "static/js/2.f0c39cac.chunk.js.map": "/User-Job-Application/static/js/2.f0c39cac.chunk.js.map",
+    "index.html": "/User-Job-Application/index.html",
+    "static/css/2.1a02f21c.chunk.css.map": "/User-Job-Application/static/css/2.1a02f21c.chunk.css.map",
+    "static/js/2.f0c39cac.chunk.js.LICENSE.txt": "/User-Job-Application/static/js/2.f0c39cac.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.e5c4f616.js",
+    "static/css/2.1a02f21c.chunk.css",
+    "static/js/2.f0c39cac.chunk.js",
+    "static/js/main.d52868d5.chunk.js"
+  ]
+}
