@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Table, Button } from "react-bootstrap";
+import { toast } from "react-toastify";
 import axios from "axios";
 import UserDetail from "./UserDetail";
 
@@ -30,6 +31,13 @@ const JobTitleInfo = (props) => {
       .catch((err) => {
         alert(err.message);
       });
+    toast.success("sucessfully shortlisted!!", {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+    });
   };
   const handleReject = (id) => {
     axios
@@ -46,13 +54,21 @@ const JobTitleInfo = (props) => {
       .catch((err) => {
         alert(err.message);
       });
+    toast.info("sucessfully Rejected!!", {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+    });
   };
+
   return (
     <div style={{ fontFamily: "sans-serif" }}>
       <br />
       <h1>{Jobheader}s</h1>
       <p>List of candidates applied for {Jobheader} job</p>
-      <Table className="table  table-striped">
+      <Table className="table  table-striped" responsive="xl">
         <thead>
           <tr>
             <th>Name</th>

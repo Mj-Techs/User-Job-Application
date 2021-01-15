@@ -8,28 +8,28 @@ const AdminPage = (props) => {
     "MEAN Stack Developer",
     "FULL Stack Developer",
   ];
-  const { data } = props;
+  const { userData } = props;
   const [developer, setDeveloper] = useState([]);
   const [Jobheader, setJobHeader] = useState(Title[0]);
 
   // To show the Front-End Developers at inital rendering
   useEffect(() => {
-    const result = data.filter((i) => {
+    const result = userData.filter((i) => {
       return i.jobTitle === "Front-End Developer";
     });
     setDeveloper(result);
-  }, [data]);
+  }, [userData]);
 
   // After clicking on JobTitle button
   const handleClick = (index) => {
     setJobHeader(Title[index]);
-    const result = data.filter((i) => {
+    const result = userData.filter((i) => {
       return i.jobTitle === Title[index];
     });
     setDeveloper(result);
   };
   return (
-    <div>
+    <div style={{ paddingLeft: "50px" }}>
       <h1>Admin Dashboard</h1>
       {Title.map((job, i) => {
         return (

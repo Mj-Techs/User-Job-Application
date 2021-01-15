@@ -1,226 +1,107 @@
-import React, { useState, useEffect } from "react";
-import validator from "validator";
-import { Form, Row, Col, Button } from "react-bootstrap";
-// import { v4 as uuidv4 } from "uuid";
+import React, { useEffect } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import "./JobForm.css";
+
+const title = [
+  "Front-End Developer",
+  "Node.js Developer",
+  "MEAN Stack Developer",
+  "FULL Stack Developer",
+];
 const JobForm = (props) => {
-  const { formSubmission, isSaved, toggleIsSaved } = props;
-  const domain = [
-    "Front-End Developer",
-    "Node.js Developer",
-    "MEAN Stack Developer",
-    "FULL Stack Developer",
-  ];
-  //   const [id, setId] = useState(uuidv4());
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [selectedOption, setSelectedOption] = useState("");
-  const [experience, setExperience] = useState("");
-  const [technicalSkill, setTechnicalSkill] = useState("");
-  const [formErrors, setFormErrors] = useState({}); //state variable will keep track of the formErrors.
-  const errors = {}; //local variable to track the errors.
-  useEffect(() => {
-    if (isSaved) {
-      setName("");
-      setEmail("");
-      setPhoneNumber("");
-      setSelectedOption("");
-      setExperience("");
-      setTechnicalSkill("");
-      toggleIsSaved();
-    }
-  }, [toggleIsSaved, isSaved]);
-  const handleNameChange = (e) => {
-    setName(e.target.value);
+  const { isSaved, toggleIsSaved, formSubmission } = props;
+  // useEffect(() => {
+  //   if (isSaved) {
+  //     toggleIsSaved();
+  //   }
+  // }, [toggleIsSaved, isSaved]);
+  const initialValues = {
+    name: "",
+    email: "",
+    phone: "",
+    jobTitle: "",
+    experience: "",
+    skills: "",
   };
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+  const validationSchema = Yup.object({
+    name: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    email: Yup.string().email("Invalid email format").required("Required"),
+    phone: Yup.string().required("Required"),
+    jobTitle: Yup.string().required("Required"),
+    experience: Yup.string().required("Required"),
+    skills: Yup.string().required("Required"),
+  });
+  const onSubmit = (values, onSubmitProps) => {
+    // console.log("form data", values);
+    formSubmission(values);
+    onSubmitProps.resetForm();
   };
-  const handlePhoneChange = (e) => {
-    setPhoneNumber(e.target.value);
-  };
-  const handleJobChange = (e) => {
-    setSelectedOption(e.target.value);
-  };
-  const handleExperienceChange = (e) => {
-    setExperience(e.target.value);
-  };
-  const handleSkillChange = (e) => {
-    setTechnicalSkill(e.target.value);
-  };
-  const runValidation = () => {
-    //check name validation
-    if (name.trim().length === 0) {
-      errors.name = "name cannot be blank ";
-    }
-    //email validation
-    if (email.trim().length === 0) {
-      errors.email = "email cannot be blank";
-    } else if (!validator.isEmail(email)) {
-      errors.email = "Invalid email formate";
-    }
-    //phone validation
-    if (phoneNumber.trim().length === 0) {
-      errors.phoneNumber = "phone Number cannot be blank";
-    } else if (validator.isAlpha(phoneNumber, "en-US")) {
-      errors.phoneNumber = "Contact Number cannot contain character ";
-    } else if (phoneNumber.length < 10 || phoneNumber.length > 13) {
-      errors.phoneNumber = "Invalid Number";
-    }
 
-    //Experience Validation
-    if (experience.trim().length === 0) {
-      errors.experience = "Experience field cannot be blank";
-    }
-    //Technical Skill validation
-    if (technicalSkill.trim().length === 0) {
-      errors.technicalSkill = "Technical Skill field cannot be blank";
-    }
-    // Job validation
-    if (selectedOption.trim().length === 0) {
-      errors.selctedOption = "Job field cannot be blank";
-    }
-  };
-  const handleSubmitChange = (e) => {
-    e.preventDefault();
-    runValidation();
-    if (Object.keys(errors).length === 0) {
-      setFormErrors({});
-      const formData = {
-        name: name,
-        email: email,
-        phone: phoneNumber,
-        jobTitle: selectedOption,
-        experience: experience,
-        skills: technicalSkill,
-      };
-      formSubmission(formData);
-    } else {
-      setFormErrors(errors);
-    }
-  };
   return (
-    <div
-      style={{
-        backgroundColor: "white",
-        fontFamily: "sans-serif",
-        height: "500px",
-        width: "900px",
-      }}
-    >
-      <Form onSubmit={handleSubmitChange}>
-        <Form.Group as={Row}>
-          <Form.Label column sm="2">
-            Fullname
-          </Form.Label>
-          <Col sm="10">
-            <input
-              type="text"
-              value={name}
-              onChange={handleNameChange}
-              className="form-control"
-              id="inputdefault"
-            />
-            {formErrors.name && <span>{formErrors.name}</span>} <hr />
-          </Col>
-          <br />
-          <Form.Label column sm="2">
-            Email address
-          </Form.Label>
-          <Col sm="10">
-            <input
-              type="text"
-              placeholder="example@gmail.com"
-              value={email}
-              onChange={handleEmailChange}
-              className="form-control"
-              id="inputdefault"
-            />
-            {formErrors.email && <span>{formErrors.email}</span>}
-            <hr />
-          </Col>
-
-          <br />
-          <Form.Label column sm="2">
-            Contact Number
-          </Form.Label>
-          <Col sm="10">
-            <input
-              type="text"
-              placeholder="+91 9988554344"
-              value={phoneNumber}
-              onChange={handlePhoneChange}
-              className="form-control"
-              id="inputdefault"
-            />
-            {formErrors.phoneNumber && <span>{formErrors.phoneNumber}</span>}
-            <hr />
-          </Col>
-
-          <br />
-          <Form.Label column sm="2">
-            Applying for job
-          </Form.Label>
-          <Col sm="10">
-            <select
-              value={selectedOption}
-              onChange={handleJobChange}
-              className="form-control"
-              id="inputdefault"
-            >
-              <option value="">----Select----</option>
-              {domain.map((ele, i) => {
-                return (
-                  <option key={i} value={ele}>
-                    {ele}
-                  </option>
-                );
-              })}
-            </select>
-            {formErrors.selctedOption && (
-              <span>{formErrors.selctedOption}</span>
-            )}
-            <hr />
-          </Col>
-          <br />
-          <Form.Label column sm="2">
-            Experience
-          </Form.Label>
-          <Col sm="10">
-            <input
-              type="text"
-              placeholder="Experience(2 years 3 months)"
-              value={experience}
-              onChange={handleExperienceChange}
-              className="form-control"
-              id="inputdefault"
-            />
-            {formErrors.experience && <span>{formErrors.experience}</span>}
-            <hr />
-          </Col>
-          <br />
-          <Form.Label column sm="2">
-            Technical Skills
-          </Form.Label>
-          <Col sm="10">
-            <Form.Control
-              as="textarea"
-              rows={2}
-              placeholder="Technical Skills"
-              value={technicalSkill}
-              onChange={handleSkillChange}
-            />
-            {formErrors.technicalSkill && (
-              <span>{formErrors.technicalSkill}</span>
-            )}
-            <hr />
-          </Col>
-          <br />
-          <Col sm="10">
-            <Button type="submit">Send Application</Button>
-          </Col>
-        </Form.Group>
-      </Form>
+    <div className="App">
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+      >
+        <Form>
+          <label htmlFor="Fullname">Fullname</label>
+          <Field id="fullName" name="name" type="text" />
+          <ErrorMessage name="name">
+            {(errmsg) => <div style={{ color: "red" }}>{errmsg}</div>}
+          </ErrorMessage>
+          <hr />
+          <label htmlFor="email">Email address</label>
+          <Field id="email" name="email" type="email" />{" "}
+          <ErrorMessage name="email">
+            {(errmsg) => <div style={{ color: "red" }}>{errmsg}</div>}
+          </ErrorMessage>
+          <hr />
+          <label htmlFor="phone">Contact Number</label>
+          <Field id="phone" name="phone" type="text" />{" "}
+          <ErrorMessage name="phone">
+            {(errmsg) => <div style={{ color: "red" }}>{errmsg}</div>}
+          </ErrorMessage>
+          <hr />
+          <label htmlFor="jobTitle">Applying for job</label>
+          <Field as="select" id="jobTitle" name="jobTitle">
+            <option value="">----Select----</option>
+            {title.map((tit, i) => {
+              return (
+                <option value={tit} key={i}>
+                  {tit}
+                </option>
+              );
+            })}
+          </Field>
+          <ErrorMessage name="jobTitle">
+            {(errmsg) => <div style={{ color: "red" }}>{errmsg}</div>}
+          </ErrorMessage>
+          <hr />
+          <label htmlFor="experience">Experience</label>
+          <Field
+            id="experience"
+            name="experience"
+            type="text"
+            placeholder="Experience(2 years 3 months)"
+          />
+          <ErrorMessage name="experience">
+            {(errmsg) => <div style={{ color: "red" }}>{errmsg}</div>}
+          </ErrorMessage>
+          <hr />
+          <label htmlFor="skills">Technical Skills</label>
+          <Field as="textarea" id="skills" name="skills" />
+          <ErrorMessage name="skills">
+            {(errmsg) => <div style={{ color: "red" }}>{errmsg}</div>}
+          </ErrorMessage>
+          <hr />
+          <button type="submit">Submit</button>
+        </Form>
+      </Formik>
     </div>
   );
 };
